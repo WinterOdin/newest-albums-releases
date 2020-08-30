@@ -3,6 +3,7 @@ import datetime
 import json
 import base64
 from urllib.parse import urlencode
+from itertools import islice 
 client_id = 'f00af83a96874760a3b8a3ebafabb29a'
 client_secret = '5abcde8d5d154a4ca6c469fe622b96f5'
 class SpotifyAPI(object):
@@ -73,16 +74,39 @@ lookup_url = f"{endpoint}"
 r = requests.get(lookup_url, headers=headers)
 a = r.json()
 
-artist_name = []
-artist_url  = []
-album_url   = []
-album_pic   = []
-album_name  = []
+artist_name       = []
+artist_url        = []
+album_url         = []
+album_pic         = []
+album_name        = []
+album_id          = []
+albums_list       = []
+album_track_total = []
+song_list         = []  
+track_numbers     = [] # list of length in which we have to split
+
 for x in range(0,20):#20 because it's Default limit in query it's 20 you can change it up to 50 in the endpoint
     artist_name.append(a["albums"]["items"][x]["artists"][0]['name'])
     artist_url.append(a["albums"]["items"][x]["artists"][0]['external_urls']['spotify'])
     album_url.append(a["albums"]["items"][x]["external_urls"]['spotify'])
     album_pic.append(a["albums"]["items"][x]["images"][0]['url'])
     album_name.append(a["albums"]["items"][x]["name"])
+    album_id.append(a["albums"]["items"][x]['id'])
 
-print(album_pic)
+
+for x in album_id :
+    album_query = "https://api.spotify.com/v1/albums/"+x+ "/tracks"
+    lookup_album_url     = f"{album_query}"
+    album_tracks_request = requests.get(lookup_album_url, headers=headers)
+    albums_list.append(album_tracks_request.json())
+
+
+for x in albums_list:
+    for y in range(len(x['items'])):
+        song_list.append(x['items'][y]["name"])
+    track_numbers.append(x['total'])
+
+song_list_input = iter(song_list) 
+grouped_tracks  = [list(islice(song_list_input, x)) for x in track_numbers] 
+
+    
