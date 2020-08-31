@@ -11,8 +11,8 @@ from django.http import HttpResponse
 from django.db.models import Count, Sum, Max
 from json import dumps 
 
-client_id       = 'f00af83a96874760a3b8a3ebafabb29a'
-client_secret   = '5abcde8d5d154a4ca6c469fe622b96f5'
+client_id       = ''
+client_secret   = ''#add your credentials 
 class SpotifyAPI(object):
     access_token            = None
     access_token_expires    = datetime.datetime.now()
