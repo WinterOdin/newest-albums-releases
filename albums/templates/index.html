@@ -1,0 +1,66 @@
+{% load static  %}
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static '/css/style.css' %}">
+  <script src="https://kit.fontawesome.com/88703e40b7.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+           
+            <div class="col-12">
+                <div class="lastestSpotifyReleases">
+                    Lastest Spotify Releases     
+                </div>
+            </div>
+        
+        </div> 
+        <div class="row">
+            {% for album_pic,album_url,album_name,artist_name,artist_url,grouped_tracks in wholeData   %}
+                <div class="col-4 ">
+                    <div class="albumWrapper">
+                        <div class="albumPicture">
+                            <img class="albumPictureStyle" src='{{ album_pic  }}' >
+                        </div>
+                        <div class="albumName">
+                            <div class="albumNameText">
+                              <a class="albumUrl"href="{{ album_url  }}" >{{ album_name  }} </a>         
+                            </div>
+                        </div>
+                        <div class="albumArtist">
+                                <a  class="albumArtistText"href="{{ artist_url  }}">{{ artist_name  }}</a>
+                        </div>
+                        <div class="albumTitle">
+                            <div class="albumListButton">Album track list</div>
+                        </div>
+                        <div class="faqTextAnswer open">
+                        {% for x in grouped_tracks  %}
+
+                            <div class="trackTitle">
+                                {{ forloop.counter }}  {{ x|linebreaksbr  }}
+                            </div>
+
+                            
+                        {% endfor  %}
+                        
+                        </div>
+                    </div>
+                </div>
+            {% endfor  %}
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(".open").hide();
+        $('.albumTitle').click(function(){
+            $(this).next().slideToggle();
+        });</script>
+</body>
+</html>
